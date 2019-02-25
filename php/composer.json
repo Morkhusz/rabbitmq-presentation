@@ -1,0 +1,13 @@
+{
+    "name": "dev/php",
+    "type": "project",
+    "authors": [
+        {
+            "name": "José Filho",
+            "email": "jose-silvafilho@hotmail.com"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": ">=2.6.1"
+    }
+}
