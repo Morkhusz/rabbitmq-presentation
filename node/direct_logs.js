@@ -1,19 +1,20 @@
+
 var amqp = require('amqplib/callback_api');
-var log_level = ['info', 'warning', 'error']
+var log_level = ['info', 'debug', 'warning', 'error']
 
-amqp.connect('amqp://localhost', function(err, conn) {
-  conn.createChannel(function(err, ch) {
+amqp.connect('amqp://localhost', (err, connection) => {
+  connection.createChannel((err, channel) => {
 
-    ch.assertExchange('logs', 'direct', {durable: false});
+    channel.assertExchange('logs', 'direct', {durable: false});
 
-    ch.assertQueue('', {exclusive: true}, function(err, q) {
+    channel.assertQueue('logs', {exclusive: false}, (err, q) => {
       console.log(' [*] Waiting for logs. To exit press CTRL+C');
 
-      log_level.forEach(function(level) {
-        ch.bindQueue(q.queue, 'logs', level);
+      log_level.forEach((level) => {
+        channel.bindQueue(q.queue, 'logs', level);
       });
 
-      ch.consume(q.queue, function(msg) {
+      channel.consume(q.queue, (msg) => {
         console.log(" [x] %s: <%s>", msg.fields.routingKey, msg.content.toString());
       }, {noAck: true});
     });

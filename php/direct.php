@@ -14,7 +14,7 @@ if (empty($type)) {
 }
 $data = $argv[1];
 if (empty($data)) {
-    $data = "User signed up < foo@example.org >";
+    $data = "User signed up <foo@example.org>";
 }
 $msg = new AMQPMessage($data);
 
@@ -26,3 +26,5 @@ echo ' [x] Sent ', $type, ' log ', $data, "\n";
 
 $channel->close();
 $connection->close();
+
+
